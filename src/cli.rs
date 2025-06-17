@@ -1,13 +1,13 @@
-use clap::StructOpt;
+use clap::Parser;
 use std::{error::Error, str::FromStr};
 
-#[derive(Debug, StructOpt)]
+#[derive(Debug, Parser)]
 pub struct Cli {
     /// minimum value as an integar
     pub min: usize,
     /// minimum value as an integar
     pub max: usize,
-    #[structopt(short, long, parse(try_from_str = parse_key_val))]
+    #[clap(short, long, value_parser = parse_key_val::<String, usize>)]
     /// create custom matchers
     ///
     /// syntax: replace=number
@@ -17,8 +17,8 @@ pub struct Cli {
     /// example: fizzbuzz 0 10 -d fizz=3 buzz=5 bazz=7
     pub defines: Option<Vec<(String, usize)>>,
     /// Prints the values as they are computed instead of all at once.
-    #[structopt(short, long)]
-    pub print_instantly: bool
+    #[clap(short, long)]
+    pub print_instantly: bool,
 }
 
 fn parse_key_val<T, U>(s: &str) -> Result<(T, U), Box<dyn Error + Send + Sync>>
@@ -40,6 +40,8 @@ where
 
 #[cfg(test)]
 mod tests {
+    use clap::CommandFactory;
+
     use super::*;
 
     #[test]
@@ -62,7 +64,6 @@ mod tests {
 
     #[test]
     fn verify_app() {
-        use clap::IntoApp;
-        Cli::into_app().debug_assert()
+        Cli::command().debug_assert()
     }
 }

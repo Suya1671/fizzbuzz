@@ -1,5 +1,6 @@
-use criterion::{black_box, criterion_group, criterion_main, Criterion};
+use criterion::{criterion_group, criterion_main, Criterion};
 use fizzbuzz::generator::Generator;
+use std::hint::black_box;
 
 fn criterion_benchmark(c: &mut Criterion) {
     let fizzbuzz_matcher = vec![("Fizz".to_string(), 3), ("Buzz".to_string(), 5)];

@@ -1,5 +1,3 @@
-use std::iter::TrustedLen;
-
 pub struct Generator {
     pub current: usize,
     pub max: usize,
@@ -18,14 +16,9 @@ impl Generator {
 
 impl ExactSizeIterator for Generator {
     fn len(&self) -> usize {
-        self.max
+        self.max - self.current
     }
 }
-
-/// SAFETY: should be safe as the implementation of the generators Iterator#size_hint is always
-/// accurate. This can be seen by looking at the implementation, where we notice that all it does
-/// is return known arguments, therefore it is safe
-unsafe impl TrustedLen for Generator {}
 
 impl Iterator for Generator {
     type Item = String;
@@ -53,7 +46,7 @@ impl Iterator for Generator {
     }
 
     fn size_hint(&self) -> (usize, Option<usize>) {
-        (self.max, Some(self.max))
+        (self.max - self.current, Some(self.max - self.current))
     }
 }
 

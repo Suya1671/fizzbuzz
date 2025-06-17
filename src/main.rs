@@ -4,7 +4,7 @@ use fizzbuzz::generator::Generator;
 use indicatif::{ProgressBar, ProgressIterator, ProgressStyle};
 
 fn main() {
-    let cli: Cli = Cli::from_args();
+    let cli: Cli = Cli::parse();
 
     let gen = Generator::new(
         Some(cli.min),
@@ -18,24 +18,24 @@ fn main() {
             println!("{val}");
         }
     } else {
-        // SAFETY: 128 bit computers don't exist yet, so this is safe for now
+        // 128 bit computers don't exist yet, so this is safe for now
         let bar = ProgressBar::new(cli.max.try_into().expect("Usize too big")).with_style(
             ProgressStyle::default_bar()
-                .template("[{elapsed_precise}] {bar:50.cyan/blue} {pos:>7}/{len:7} {msg}")
-                // SAFETY: I have tested multiple times and the template is indeed correct
+                .template(
+                    "[{elapsed_precise} | ETA {eta}] {bar:50.cyan/blue} {pos:>7}/{len:7} {msg}",
+                )
                 .expect("failed to parse template")
                 .progress_chars("##-"),
         );
 
         let value = gen
             .progress_with(bar.clone())
-            .map(|val| {
+            .inspect(|val| {
                 bar.set_message(val.clone());
-                val
             })
             .collect::<Vec<String>>()
             .join("\n");
 
-        println!("{}", value);
+        println!("{value}");
     }
 }
