@@ -7,7 +7,7 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-indicatif = { version = "0.17.11" }
+indicatif = { version = "0.18.3" }
 clap = { version = "4.5.40", features = ["derive"] }
 
 [dev-dependencies]
