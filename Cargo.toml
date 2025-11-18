@@ -11,7 +11,7 @@ indicatif = { version = "0.17.11" }
 clap = { version = "4.5.40", features = ["derive"] }
 
 [dev-dependencies]
-trycmd = "0.15.9"
+trycmd = "0.15.11"
 criterion = "0.6.0"
 pretty_assertions = "1.4.1"
 
