@@ -12,7 +12,7 @@ clap = { version = "4.5.40", features = ["derive"] }
 
 [dev-dependencies]
 trycmd = "0.15.9"
-criterion = "0.6.0"
+criterion = "0.8.2"
 pretty_assertions = "1.4.1"
 
 [[bench]]
